@@ -48,7 +48,7 @@ function renderToDom(array){
     let readyToggle = '<button class="transferBtn">Not Ready</button>';
     for ( let item of array) {
 
-        if(item.readToTransfer ==='true'){
+        if(item.readToTransfer ==='true') {
             readyToggle = '<button class="transferBtn">Ready for Transfer</button>';
         }
 
@@ -66,8 +66,7 @@ function renderToDom(array){
             </tr>
         `);
     }
-
-}
+} //end of renderToDom
 
 function saveKoala( newKoala ){
   console.log( 'in saveKoala', newKoala );
