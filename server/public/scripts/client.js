@@ -3,7 +3,7 @@ console.log( 'js' );
 $( document ).ready( function(){
   console.log( 'JQ' );
   // Establish Click Listeners
-  setupClickListeners()
+  // setupClickListeners()
   // load existing koalas on page load
   getKoalas();
 
@@ -36,6 +36,7 @@ function getKoalas(){
         url: '/koalas',
     }).then((response) => {
         renderToDom(response);
+        console.log('success');
     }).catch((err) => {
         alert('koalas get request failed');
         console.log('koals get request failed', err);
