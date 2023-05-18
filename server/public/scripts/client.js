@@ -45,11 +45,12 @@ function getKoalas(){
 }// end getKoalas
 
 function renderToDom(array){
-        console.log('in renderToDom');
-    let readyToggle = '<button class="transferBtn">Not Ready</button>';
+        console.log('in renderToDom',array);
     for ( let item of array) {
 
-        if(item.readToTransfer ==='true') {
+    let readyToggle = '<button class="transferBtn">Not Ready</button>';
+    
+        if(item.readyToTransfer === false) {
             readyToggle = '<button class="transferBtn">Ready for Transfer</button>';
         }
 

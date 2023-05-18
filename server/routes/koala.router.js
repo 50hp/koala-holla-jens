@@ -11,7 +11,7 @@ koalaRouter.get('/', (req,res) => {
     pool.query(queryText)
     .then((result) => {
         res.send(result.rows);
-        console.log('sending over rows');
+        console.log('sending over rows', result.rows);
     }).catch((err) => {
         console.log('request for koalas failed');
         res.sendStatus(500);
