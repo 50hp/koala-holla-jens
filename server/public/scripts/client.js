@@ -7,7 +7,7 @@ $( document ).ready( function(){
   // load existing koalas on page load
   getKoalas();
   $('#viewKoalas').on('click', '.transferBtn', isReady)
-}); // end doc ready
+}); // end doc ready 
 
 // function setupClickListeners() {
 //   $( '#addButton' ).on( 'click', function(){
@@ -50,14 +50,13 @@ function renderToDom(array){
     let readyToggle = '<button class="transferBtn">Not Ready</button>';
     for ( let item of array) {
 
-        if(item.readToTransfer ==='true') {
+        if(item.readyToTransfer ==='true') {
             readyToggle = '<button class="transferBtn">Ready for Transfer</button>';
         }
 
         $('#viewKoalas').append(`
 
             <tr data-id=${item.id}>
-                <td class="koalaId">${item.id}</td>
                 <td class="koalaName">${item.name}</td>
                 <td class="koalaAge">${item.age}</td>
                 <td class="koalaGender">${item.gender}</td>
@@ -70,6 +69,8 @@ function renderToDom(array){
     }
 } //end of renderToDom
 
+let isLoading = false;
+
 function saveKoala( newKoala ){
   console.log( 'in saveKoala', newKoala );
   // ajax call to server to get koalas
@@ -78,6 +79,8 @@ function saveKoala( newKoala ){
 
 // beginning PUT function
 function isReady() {
+  if (isLoading === false){
+    isLoading = true;
   console.log( 'Ready to transfer clicked')
   let idToUpdate = $(this).closest('tr').data('id');
   console.log( idToUpdate )
@@ -94,10 +97,11 @@ function isReady() {
       }
 
   }).then(function(response){
+    isLoading = false;
       console.log(response)
       getKoalas();
   }).catch(function(err){
       console.log(err)
   })
-  
+}
 }
