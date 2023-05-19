@@ -18,9 +18,25 @@ function postKoala(){
     kGender: $('#genderIn').val(),
     kReadyTrans: $('#readyForTransferIn').val(),
     kNotes: $('#notesIn').val(),
-
-
   }
+    if(kInputs.kAge >18 || kInputs.kAge < 0 ) {
+        alert("age is wrong")
+        return
+    }
+    if(kInputs.kGender === 'M' || kInputs.kGender === 'F') {
+
+    }else{
+        alert('Gender needs to be equal to M or F')
+        return
+    }
+
+    if(kInputs.kReadyTrans === 'true' || kInputs.kReadyTrans === 'false'){
+
+    }else {
+        alert('Ready status must be true or false');
+        return
+    }
+
   console.log(kInputs)
 $.ajax({
   method: 'POST',
