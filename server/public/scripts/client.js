@@ -1,4 +1,5 @@
 console.log( 'js' );
+// import swal from "sweetalert";
 
 $( document ).ready( function(){
   console.log( 'JQ' );
@@ -146,9 +147,20 @@ function isReady() {
 }
 
 function removeKoala(){
-  // How do I get the songs id??
   const idToRemove = $(this).closest('tr').data('id');
-  $.ajax({
+  swal({
+    title: "Are you sure? You want to delete this Koala?! 🐨",
+    text: "Once deleted, you will not be able to recover this Koala ever again!! You monster!!",
+    icon: "warning",
+    buttons: true,
+    dangerMode: true,
+  })
+  .then((willDelete) => {
+    if (willDelete) {
+      swal("BANG!!! BANG!!! You're a MONSTER!!!! ", {
+        icon: "success",
+      });
+      $.ajax({
       type: 'DELETE',
       url: `/koalas/${idToRemove}`
   }).then(function (response){
@@ -156,4 +168,10 @@ function removeKoala(){
   }).catch(function (error){
       console.log('Error with delete', error)
   })
+    } else {
+      swal("Thank you for coming back to your senses!");
+    }
+  });
+  
+  
 }
