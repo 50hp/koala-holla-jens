@@ -4,6 +4,7 @@ $( document ).ready( function(){
   console.log( 'JQ' );
   $('#addButton').on('click', postKoala)
   $('#viewKoalas').on('click', '.transferBtn', isReady)
+  $('#viewKoalas').on('click','.removeBtn', removeKoala)
   getKoalas();
 }); // end doc ready 
 
@@ -142,4 +143,17 @@ function isReady() {
              console.log(err)
          })
      } 
+}
+
+function removeKoala(){
+  // How do I get the songs id??
+  const idToRemove = $(this).closest('tr').data('id');
+  $.ajax({
+      type: 'DELETE',
+      url: `/koalas/${idToRemove}`
+  }).then(function (response){
+    getKoalas();
+  }).catch(function (error){
+      console.log('Error with delete', error)
+  })
 }
