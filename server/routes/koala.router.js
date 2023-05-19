@@ -7,7 +7,8 @@ const pool = require('../modules/pool');
 // GET
 koalaRouter.get('/', (req,res) => {
     console.log('request for koalas');
-    let queryText = `SELECT * FROM "koala_library";`;
+    let queryText = `SELECT * FROM "koala_library"
+                     ORDER BY "id" ASC;`;
     pool.query(queryText)
     .then((result) => {
         res.send(result.rows);
@@ -51,7 +52,12 @@ koalaRouter.put('/:id', (req, res) => {
         queryText = `UPDATE "koala_library" 
         SET "readyToTransfer" = true
         WHERE "id" = $1;`
+    }else{
+        queryText = `UPDATE "koala_library"
+                    SET "readyToTransfer" = false
+                    WHERE "id"=$1;`
     }
+
     pool.query(queryText, [idToUpdate])
     .then(result => {
         console.log('koala UPDATED', result.rows);

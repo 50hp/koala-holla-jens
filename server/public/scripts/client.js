@@ -3,12 +3,8 @@ console.log( 'js' );
 $( document ).ready( function(){
   console.log( 'JQ' );
   $('#addButton').on('click', postKoala)
-    
-  // Establish Click Listeners
-  // setupClickListeners()
-  // load existing koalas on page load
-  getKoalas();
   $('#viewKoalas').on('click', '.transferBtn', isReady)
+  getKoalas();
 }); // end doc ready 
 
 
@@ -80,11 +76,14 @@ function getKoalas(){
 function renderToDom(array){
     $('#viewKoalas').empty();
         console.log('in renderToDom');
-    let readyToggle = '<button class="transferBtn">Not Ready</button>';
+    let readyToggle = '';
     for ( let item of array) {
+        console.log(item.readyToTransfer);
 
-        if(item.readyToTransfer ==='true') {
-            readyToggle = '<button class="transferBtn">Ready for Transfer</button>';
+        if(item.readyToTransfer === true) {
+            readyToggle = '<button class="transferBtn">Not Ready</button>';
+        }else {
+            readyToggle = '<button class="transferBtn">Ready To Transfer</button>';
         }
 
         $('#viewKoalas').append(`
@@ -95,46 +94,52 @@ function renderToDom(array){
                 <td class="koalaGender">${item.gender}</td>
                 <td class="koalareadyToTransfer">${item.readyToTransfer}</td>
                 <td class="koalanotes">${item.notes}</td>
-                <td class="transferBtn">${readyToggle}</td>
+                <td class="transferBtn" data-value="${item.readyToTransfer}">${readyToggle}</td>
                 <td class="remove"><button class="removeBtn">Remove</button></td>
             </tr>
         `);
     }
 } //end of renderToDom
 
-let isLoading = false;
-
-function saveKoala( newKoala ){
-  console.log( 'in saveKoala', newKoala );
-  // ajax call to server to get koalas
- 
-}
 
 // beginning PUT function
 function isReady() {
-  if (isLoading === false){
-    isLoading = true;
-  console.log( 'Ready to transfer clicked')
-  let idToUpdate = $(this).closest('tr').data('id');
-  console.log( idToUpdate )
+        console.log( 'Ready to transfer clicked')
+        let idToUpdate = $(this).closest('tr').data('id');
+        let isReadyValue = $(this).data().value;
+        console.log('idToUpdate',idToUpdate, isReadyValue);
 
-  // let data = {
-  //   readyToTransfer: false
-  // }
-
-  $.ajax({
-      method: 'PUT',
-      url: `/koalas/${idToUpdate}`,
-      data: { // data should be an object
-          readyToTransfer: false
-      }
-
-  }).then(function(response){
-    isLoading = false;
-      console.log(response)
-      getKoalas();
-  }).catch(function(err){
-      console.log(err)
-  })
-}
+ 
+    
+     if ( isReadyValue === false){
+         console.log('idTOUpdate false', idToUpdate )
+    
+         $.ajax({
+             method: 'PUT',
+             url: `/koalas/${idToUpdate}`,
+             data: { // data should be an object
+                 readyToTransfer: false,
+             }
+         }).then(function(response){
+             // isLoading = false;
+             console.log(response)
+             getKoalas();
+         }).catch(function(err){
+             console.log(err)
+         })
+     }else{
+         console.log('idToUpdate true', idToUpdate )
+         $.ajax({
+             method: 'PUT',
+             url: `/koalas/${idToUpdate}`,
+             data: { // data should be an object
+                 readyToTransfer: true
+             }
+         }).then(function(response){
+             console.log(response)
+             getKoalas();
+         }).catch(function(err){
+             console.log(err)
+         })
+     } 
 }
