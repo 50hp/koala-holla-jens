@@ -29,7 +29,7 @@ koalaRouter.post('/', (req, res) => {
     const values = [newKoala.kName,newKoala.kAge,newKoala.kGender,newKoala.kReadyTrans,newKoala.kNotes];
     pool.query(queryText,values)
     .then(result => {
-        
+        res.sendStatus(201)
 }).catch(error => {
             console.log('Query text is:', queryText, 'Our Error is:', error)
             res.sendStatus(500)
