@@ -6,7 +6,7 @@ $( document ).ready( function(){
   // setupClickListeners()
   // load existing koalas on page load
   getKoalas();
-
+  $('#viewKoalas').on('click', '.transferBtn', isReady)
 }); // end doc ready
 
 // function setupClickListeners() {
@@ -45,6 +45,7 @@ function getKoalas(){
 }// end getKoalas
 
 function renderToDom(array){
+    $('#viewKoalas').empty();
         console.log('in renderToDom');
     let readyToggle = '<button class="transferBtn">Not Ready</button>';
     for ( let item of array) {
@@ -55,7 +56,7 @@ function renderToDom(array){
 
         $('#viewKoalas').append(`
 
-            <tr>
+            <tr data-id=${item.id}>
                 <td class="koalaId">${item.id}</td>
                 <td class="koalaName">${item.name}</td>
                 <td class="koalaAge">${item.age}</td>
@@ -73,4 +74,30 @@ function saveKoala( newKoala ){
   console.log( 'in saveKoala', newKoala );
   // ajax call to server to get koalas
  
+}
+
+// beginning PUT function
+function isReady() {
+  console.log( 'Ready to transfer clicked')
+  let idToUpdate = $(this).closest('tr').data('id');
+  console.log( idToUpdate )
+
+  // let data = {
+  //   readyToTransfer: false
+  // }
+
+  $.ajax({
+      method: 'PUT',
+      url: `/koalas/${idToUpdate}`,
+      data: { // data should be an object
+          readyToTransfer: false
+      }
+
+  }).then(function(response){
+      console.log(response)
+      getKoalas();
+  }).catch(function(err){
+      console.log(err)
+  })
+  
 }

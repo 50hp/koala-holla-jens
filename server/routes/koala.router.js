@@ -22,7 +22,31 @@ koalaRouter.get('/', (req,res) => {
 
 
 // PUT
+koalaRouter.put('/:id', (req, res) => {
+    console.log( 'got to put')
+    // res.send('WE DID IT')
 
+    let idToUpdate = req.params.id;
+
+    let readyToTransfer = req.body.readyToTransfer
+
+    let queryText = '';
+
+    if (readyToTransfer === 'false' ){
+        queryText = `UPDATE "koala_library" 
+        SET "readyToTransfer" = true
+        WHERE "id" = $1;`
+    }
+    pool.query(queryText, [idToUpdate])
+    .then(result => {
+        console.log('koala UPDATED', result.rows);
+        res.sendStatus(200);
+    })
+    .catch((error) => {
+        console.log('Error making PUT query', error);
+        res.sendStatus(500);
+    })
+})
 
 // DELETE
 
